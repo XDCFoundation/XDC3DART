@@ -1,0 +1,30 @@
+name: xdc3dart
+description: XDC DART SDK with support for XRC20.
+version: 1.0.0
+homepage: https://github.com/XDCFoundation/XDC3DART
+
+environment:
+  sdk: '>=2.14.4 <3.0.0'
+
+
+
+dev_dependencies:
+  coverage: ^1.0.4
+  lints: ^1.0.0
+  mockito: ^5.0.17
+  path: ^1.8.1
+  test: ^1.20.1
+
+dependencies: 
+  dotenv: ^3.0.0
+  http: ^0.13.4
+  isolate: ^2.1.1
+  json_rpc_2: ^3.0.1
+  meta: ^1.7.0
+  pointycastle: ^3.5.0
+  stream_channel: ^2.1.0
+  typed_data: ^1.3.0
+  uuid: ^3.0.5
+  web3dart: ^2.3.3
+  crypto: ^3.0.1
+  web_socket_channel: ^2.1.0
