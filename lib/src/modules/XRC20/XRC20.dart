@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:async';
 
 import 'package:http/http.dart';
@@ -9,9 +8,8 @@ import 'package:web3dart/credentials.dart';
 /// Connection Import .
 import 'package:xdc3dart/src/connection/connection.dart';
 
-/// this is abi.json file import. Make sure your path is correct according to this.
-final File abiFile =
-    File(Directory.current.path + '/lib/src/constants/XRC20.json');
+final String abiString =
+    '[{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"spender","type":"address"},{"name":"tokens","type":"uint256"}],"name":"approve","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"from","type":"address"},{"name":"to","type":"address"},{"name":"tokens","type":"uint256"}],"name":"transferFrom","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"decimals","outputs":[{"name":"","type":"uint8"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"_totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"tokenOwner","type":"address"}],"name":"balanceOf","outputs":[{"name":"balance","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeSub","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"tokens","type":"uint256"}],"name":"transfer","outputs":[{"name":"success","type":"bool"}],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeDiv","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeMul","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"tokenOwner","type":"address"},{"name":"spender","type":"address"}],"name":"allowance","outputs":[{"name":"remaining","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"a","type":"uint256"},{"name":"b","type":"uint256"}],"name":"safeAdd","outputs":[{"name":"c","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":false,"name":"tokens","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"tokenOwner","type":"address"},{"indexed":true,"name":"spender","type":"address"},{"indexed":false,"name":"tokens","type":"uint256"}],"name":"Approval","type":"event"}]';
 
 final client = Web3Client(rpcUrl, Client(), socketConnector: () {
   return IOWebSocketChannel.connect(wsUrl).cast<String>();
@@ -21,10 +19,9 @@ final client = Web3Client(rpcUrl, Client(), socketConnector: () {
 class XRC20 {
   /// Gets the Name of the specified address.
   Future<String> name(String contractAdd) async {
-    final abiCode = await abiFile.readAsString();
     final EthereumAddress contractAddr = EthereumAddress.fromHex(contractAdd);
-    final contract =
-        DeployedContract(ContractAbi.fromJson(abiCode, 'XRC20'), contractAddr);
+    final contract = DeployedContract(
+        ContractAbi.fromJson(abiString, 'XRC20'), contractAddr);
     final tokenName = contract.function('name');
     final name =
         await client.call(contract: contract, function: tokenName, params: []);
@@ -33,10 +30,9 @@ class XRC20 {
 
   /// Gets the Symbol of the specified address.
   Future<String> symbol(String contractAdd) async {
-    final abiCode = await abiFile.readAsString();
     final EthereumAddress contractAddr = EthereumAddress.fromHex(contractAdd);
-    final contract =
-        DeployedContract(ContractAbi.fromJson(abiCode, 'XRC20'), contractAddr);
+    final contract = DeployedContract(
+        ContractAbi.fromJson(abiString, 'XRC20'), contractAddr);
 
     final tokenSymbol = contract.function('symbol');
     final symbol = await client
@@ -46,11 +42,9 @@ class XRC20 {
 
   /// Gets the Decimal of the specified address.
   Future<String> decimals(String decimals_) async {
-    final abiCode = await abiFile.readAsString();
-
     final EthereumAddress contractAddr = EthereumAddress.fromHex(decimals_);
-    final contract =
-        DeployedContract(ContractAbi.fromJson(abiCode, 'XRC20'), contractAddr);
+    final contract = DeployedContract(
+        ContractAbi.fromJson(abiString, 'XRC20'), contractAddr);
     final tokenDecimals = contract.function('decimals');
 
     final decimals = await client
@@ -60,10 +54,9 @@ class XRC20 {
 
   /// Gets the totalSupply of the specified address.
   Future<String> totalSupply(String totalSupply_) async {
-    final abiCode = await abiFile.readAsString();
     final EthereumAddress contractAddr = EthereumAddress.fromHex(totalSupply_);
-    final contract =
-        DeployedContract(ContractAbi.fromJson(abiCode, 'XRC20'), contractAddr);
+    final contract = DeployedContract(
+        ContractAbi.fromJson(abiString, 'XRC20'), contractAddr);
     final tokenTotalSupply = contract.function('totalSupply');
 
     final totalSupply = await client
@@ -75,10 +68,9 @@ class XRC20 {
   /// contractAddr : The address of the token.
   /// ownerAdd : The address to query the balance of.
   Future<String> balanceOf(String contractAdd, ownerAdd) async {
-    final abiCode = await abiFile.readAsString();
     final EthereumAddress contractAddr = EthereumAddress.fromHex(contractAdd);
-    final contract =
-        DeployedContract(ContractAbi.fromJson(abiCode, 'XRC20'), contractAddr);
+    final contract = DeployedContract(
+        ContractAbi.fromJson(abiString, 'XRC20'), contractAddr);
     final tokenBalanceOf = contract.function('balanceOf');
     final EthereumAddress ownerAddress = EthereumAddress.fromHex(ownerAdd);
     final balanceOf = await client.call(
@@ -93,10 +85,9 @@ class XRC20 {
   /// An String representing the Allowance .
   Future<String> allowance(String ownerAdd_, contractAdd_, spenderAdd_) async {
     final EthereumAddress ownAddress = EthereumAddress.fromHex(ownerAdd_);
-    final abiCode = await abiFile.readAsString();
     final EthereumAddress contractAddr = EthereumAddress.fromHex(contractAdd_);
-    final contract =
-        DeployedContract(ContractAbi.fromJson(abiCode, 'XRC20'), contractAddr);
+    final contract = DeployedContract(
+        ContractAbi.fromJson(abiString, 'XRC20'), contractAddr);
     final tokenAllowance = contract.function('allowance');
     final EthereumAddress spender = EthereumAddress.fromHex(spenderAdd_);
     final allowance = await client.call(
@@ -116,10 +107,9 @@ class XRC20 {
       receiverAdd, transfer_value) async {
     final String privateKey = _ownerPrivateKey;
     final credentials = await EthPrivateKey.fromHex(privateKey);
-    final abiCode = await abiFile.readAsString();
     final EthereumAddress contractAddr = EthereumAddress.fromHex(_contractAddr);
-    final contract =
-        DeployedContract(ContractAbi.fromJson(abiCode, 'XRC20'), contractAddr);
+    final contract = DeployedContract(
+        ContractAbi.fromJson(abiString, 'XRC20'), contractAddr);
     final tokenTransfer = contract.function('transfer');
     final EthereumAddress ownAddress = EthereumAddress.fromHex(_ownerAdd);
     final EthereumAddress receiver = EthereumAddress.fromHex(receiverAdd);
@@ -145,11 +135,10 @@ class XRC20 {
     final String privateKey = owner_PrivateKey;
     final credentials = await EthPrivateKey.fromHex(privateKey);
 
-    final abiCode = await abiFile.readAsString();
     final EthereumAddress contractAddr = EthereumAddress.fromHex(contractadd);
 
-    final contract =
-        DeployedContract(ContractAbi.fromJson(abiCode, 'XRC20'), contractAddr);
+    final contract = DeployedContract(
+        ContractAbi.fromJson(abiString, 'XRC20'), contractAddr);
     final tokenApprove = contract.function('approve');
     final EthereumAddress spender = EthereumAddress.fromHex(spenderadd);
     final approve = await Transaction.callContract(
@@ -174,11 +163,9 @@ class XRC20 {
     final credentials = await EthPrivateKey.fromHex(privateKey);
     final ownAddress = await credentials.extractAddress();
 
-    final abiCode = await abiFile.readAsString();
-
     final EthereumAddress contractAddr = EthereumAddress.fromHex(contract_Add);
-    final contract =
-        DeployedContract(ContractAbi.fromJson(abiCode, 'XRC20'), contractAddr);
+    final contract = DeployedContract(
+        ContractAbi.fromJson(abiString, 'XRC20'), contractAddr);
     final tokenAllowance = contract.function('allowance');
     final EthereumAddress spender = EthereumAddress.fromHex(spender_Add);
     final increase = await client.call(
@@ -219,9 +206,8 @@ class XRC20 {
     final EthereumAddress contractAddr =
         EthereumAddress.fromHex(contractAddres_);
 
-    final abiCode = await abiFile.readAsString();
-    final contract =
-        DeployedContract(ContractAbi.fromJson(abiCode, 'XRC20'), contractAddr);
+    final contract = DeployedContract(
+        ContractAbi.fromJson(abiString, 'XRC20'), contractAddr);
     final tokenTransferFrom = contract.function('transferFrom');
     final EthereumAddress spender = EthereumAddress.fromHex(_spenderAddr);
     final EthereumAddress receiver = EthereumAddress.fromHex(receiver_Address);
@@ -287,10 +273,9 @@ class XRC20 {
     final credentials = await EthPrivateKey.fromHex(privateKey);
     final ownAddress = await credentials.extractAddress();
 
-    final abiCode = await abiFile.readAsString();
     final EthereumAddress contractAddr = EthereumAddress.fromHex(contract_Add);
-    final contract =
-        DeployedContract(ContractAbi.fromJson(abiCode, 'XRC20'), contractAddr);
+    final contract = DeployedContract(
+        ContractAbi.fromJson(abiString, 'XRC20'), contractAddr);
     final tokenAllowance = contract.function('allowance');
     final EthereumAddress spender = EthereumAddress.fromHex(spender_Add);
     final decrease = await client.call(
