@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
 import 'dart:core';
-
 import 'package:crypto/crypto.dart';
 import 'package:xdc3dart/xdc3dart.dart';
 
@@ -133,7 +132,7 @@ void main() async {
     print("Enter Receiver Address :");
     String receiverAdd = (stdin.readLineSync()!);
     print('Enter How much token you want to transfer! ');
-    final BigInt transfer_value = BigInt.parse(stdin.readLineSync()!);
+    num transfer_value = int.parse(stdin.readLineSync()!);
     var getTransfer = await obj.transfer(_ownerPrivateKey, _contractAddr,
         _ownerAdd, receiverAdd, transfer_value);
     print('Hash : $getTransfer\n');
@@ -147,7 +146,7 @@ void main() async {
     print("Enter Receiver Address :");
     String receiver_Address = (stdin.readLineSync()!);
     print('Enter How much token you want to transfer! ');
-    final BigInt transferfrom_value = BigInt.parse(stdin.readLineSync()!);
+    final int transferfrom_value = int.parse(stdin.readLineSync()!);
     print('Enter Spender Private Key :');
     final String SpenderPrivatekey = (stdin.readLineSync()!);
     print('Enter Owner Address');
@@ -165,10 +164,191 @@ void main() async {
     print('How much XDC you want to transfer :');
     final int xdc_value = int.parse(stdin.readLineSync()!);
     print("Enter Owner Address :");
-    var getTransferXDC =
-        await obj.transferXDC(ownerPrivatekey, receiver_Addr, xdc_value);
+    String ownerAddresss = (stdin.readLineSync()!);
+
+    var getTransferXDC = await obj.transferXDC(
+        ownerPrivatekey, receiver_Addr, xdc_value, ownerAddresss);
     print('Hash : $getTransferXDC\n');
   }
 
   xrc20();
+}
+
+var obj = new XRC721();
+void xrc721() async {
+  // /// Name Method
+  print('--- Name Method ---');
+  print("Enter Token address : ");
+  String token_address = (stdin.readLineSync()!);
+  var getName = await obj.name(token_address);
+  print('tokenName : $getName\n');
+
+  // /// Symbol Method
+  print('--- Symbol Method---');
+  print("Enter Token address: ");
+  String tokenAddress = (stdin.readLineSync()!);
+  var getSymbol = await obj.symbol(tokenAddress);
+  print('tokenSymbol : $getSymbol\n');
+
+  // /// totalSupply Method
+  print('--- totalSupply Method---');
+  print("Enter Token address: ");
+  String tokenAddr_ = (stdin.readLineSync()!);
+  var getTotalSupply = await obj.totalSupply(tokenAddr_);
+  print('tokenTotalSupply : $getTotalSupply\n');
+
+  /// Balance Method
+  print('---- BalanceOf Method ---- ');
+  print("Enter Token address: ");
+  String ___contractAdd___ = (stdin.readLineSync()!);
+  print("Enter owner address: ");
+  String ___ownerAdd___ = (stdin.readLineSync()!);
+  var getBalanceOf = await obj.balanceOf(___contractAdd___, ___ownerAdd___);
+  print('tokenBalanceOf : $getBalanceOf\n');
+
+  // // /// ownerOf Method
+  print('---- ownerOf Method ---- ');
+  print("Enter Token address: ");
+  String _tokenAddr = (stdin.readLineSync()!);
+  print("Enter tokenID address: ");
+  BigInt tokenID = BigInt.parse(stdin.readLineSync()!);
+  var getownerOf = await obj.ownerOf(tokenID, _tokenAddr);
+  print('tokenOwnerOf : $getownerOf\n');
+
+  // /// tokenURI Method
+  print('---- tokenURI Method ---- ');
+  print("Enter Token address: ");
+  String tokenAddr__ = (stdin.readLineSync()!);
+  print("Enter tokenID address: ");
+  BigInt token_id = BigInt.parse(stdin.readLineSync()!);
+  var getTokenURI = await obj.tokenURI(token_id, tokenAddr__);
+  print('tokenURI : $getTokenURI\n');
+
+  // /// supportInterface Method
+  print('---- supportInterface Method ---- ');
+  print("Enter Token address: ");
+  String token_add_ = (stdin.readLineSync()!);
+  print("Enter interfaceId address: ");
+  String interfaceId = stdin.readLineSync()!;
+  final interface_id = utf8.encode(interfaceId);
+  var supportInterface = await obj.supportInterface(interface_id, token_add_);
+  print('supportsInterface : $supportInterface\n');
+
+  // /// getApproved Method
+  print('---- getApproved Method ---- ');
+  print("Enter Token address: ");
+  String _tokenAdd_ = (stdin.readLineSync()!);
+  print("Enter tokenId : ");
+  BigInt tokenId_ = BigInt.parse(stdin.readLineSync()!);
+  var getApproved = await obj.getApproved(tokenId_, _tokenAdd_);
+  print('getApproved : $getApproved');
+
+  // / tokenByIndex Method
+  print('---- tokenByIndex Method ---- ');
+  print("Enter Token address: ");
+  String _token_Add_ = (stdin.readLineSync()!);
+  print("Enter token Index : ");
+  BigInt index = BigInt.parse(stdin.readLineSync()!);
+  var getTokenByIndex = await obj.tokenByIndex(index, _token_Add_);
+  print('getTokenByIndex : $getTokenByIndex');
+
+  /// tokenofOwnerByIndex Method
+  print('---- tokenofOwnerByIndex Method ---- ');
+  print("Enter Token address: ");
+  String _token__Add_ = (stdin.readLineSync()!);
+  print("Enter owner address: ");
+  String ownerrAddr = (stdin.readLineSync()!);
+  print("Enter token Index : ");
+  BigInt index_ = BigInt.parse(stdin.readLineSync()!);
+  var getTokenofOwnerByIndex =
+      await obj.tokenofOwnerByIndex(index_, _token__Add_, ownerrAddr);
+  print('getTokenByIndex : $getTokenofOwnerByIndex');
+
+  // /// isApproved Method
+  print('---- isApproved Method ---- ');
+  print("Enter Token address: ");
+  String __tokenAdd_ = (stdin.readLineSync()!);
+  print("Enter owner address: ");
+  String ownerr_Addr = (stdin.readLineSync()!);
+  print("Enter spender address: ");
+  String spender_addr__ = (stdin.readLineSync()!);
+  var isApproved =
+      await obj.isApproved(__tokenAdd_, ownerr_Addr, spender_addr__);
+  print('getApproved : $isApproved');
+
+  //   /// Approve Method
+  print('---- Approve Method ----');
+  print('Enter Owner Private Key :');
+  final String owner_PrivateKey = (stdin.readLineSync()!);
+  print("Enter Token address: ");
+  String contractadd = (stdin.readLineSync()!);
+  print('Enter token id :');
+  final BigInt token__ID = BigInt.parse(stdin.readLineSync()!);
+  print("Enter Spender Address :");
+  String spenderAdd = (stdin.readLineSync()!);
+  var getApprove =
+      await obj.approve(owner_PrivateKey, contractadd, spenderAdd, token__ID);
+  print('Hash : $getApprove\n');
+
+  /// setApprove Method
+  print('---- setApprove Method ----');
+  print('Enter Owner Private Key :');
+  final String owner___PrivateKey = (stdin.readLineSync()!);
+  print("Enter Token address: ");
+  String contract___add = (stdin.readLineSync()!);
+  print('Enter bool value :');
+  final bool boolValue = true;
+  print("Enter Spender Address :");
+  String spender___Add = (stdin.readLineSync()!);
+  var setApprove = await obj.setApproveofAll(
+      owner___PrivateKey, contract___add, spender___Add, boolValue);
+  print('Hash : $setApprove\n');
+
+  // / safeTransferFrom Method
+  print('----safeTransferFrom Method----');
+  print("Enter Token address: ");
+  String contractAddres__ = (stdin.readLineSync()!);
+  print("Enter Spender Address :");
+  String __spenderAddr = (stdin.readLineSync()!);
+  print("Enter Receiver Address :");
+  String receiver__Address = (stdin.readLineSync()!);
+  print('Enter token id : ');
+  final BigInt token_id_ = BigInt.parse(stdin.readLineSync()!);
+  print('Enter Spender Private Key :');
+  final String Spender_Privatekey = (stdin.readLineSync()!);
+  print('Enter Owner Address');
+  final String ownerAddress__ = (stdin.readLineSync()!);
+  var getsafeTransferForm = await obj.safetransferFrom(
+      contractAddres__,
+      __spenderAddr,
+      receiver__Address,
+      token_id_,
+      Spender_Privatekey,
+      ownerAddress__);
+  print('Hash : $getsafeTransferForm\n');
+
+  // / TransferFrom Method
+  print('----TransferFrom Method----');
+  print("Enter Token address: ");
+  String _contractAddres__ = (stdin.readLineSync()!);
+  print("Enter Spender Address :");
+  String __spenderAddr_ = (stdin.readLineSync()!);
+  print("Enter Receiver Address :");
+  String receiver__Address_ = (stdin.readLineSync()!);
+  print('Enter token id : ');
+  final BigInt token_id__ = BigInt.parse(stdin.readLineSync()!);
+  print('Enter Spender Private Key :');
+  final String Spender__Privatekey = (stdin.readLineSync()!);
+  print('Enter Owner Address');
+  final String owner_Address__ = (stdin.readLineSync()!);
+  var getTransferForm = await obj.transferFrom(
+      _contractAddres__,
+      __spenderAddr_,
+      receiver__Address_,
+      token_id__,
+      Spender__Privatekey,
+      owner_Address__);
+  print('Hash : $getTransferForm\n');
+
+  xrc721();
 }

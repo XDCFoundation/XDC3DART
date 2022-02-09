@@ -1,3 +1,6 @@
+## 1.0.3
+- Added XRC721 Support
+
 ## 1.0.2
 - Fixed abi.json 
 

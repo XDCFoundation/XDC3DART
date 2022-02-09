@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:math';
 
 import 'package:http/http.dart';
 import 'package:web3dart/web3dart.dart';
@@ -67,7 +68,7 @@ class XRC20 {
   /// Gets the balanceOf of the specified address.
   /// contractAddr : The address of the token.
   /// ownerAdd : The address to query the balance of.
-  Future<String> balanceOf(String contractAdd, ownerAdd) async {
+  Future<BigInt> balanceOf(String contractAdd, ownerAdd) async {
     final EthereumAddress contractAddr = EthereumAddress.fromHex(contractAdd);
     final contract = DeployedContract(
         ContractAbi.fromJson(abiString, 'XRC20'), contractAddr);
@@ -75,7 +76,15 @@ class XRC20 {
     final EthereumAddress ownerAddress = EthereumAddress.fromHex(ownerAdd);
     final balanceOf = await client.call(
         contract: contract, function: tokenBalanceOf, params: [ownerAddress]);
-    return ('$balanceOf');
+    final response = balanceOf[0].toString();
+    final res = BigInt.parse(response);
+    print(res);
+    final x = pow(10, 18);
+    final u = x.toString();
+    final BigInt h = BigInt.parse(u);
+    print(x);
+    final y = res ~/ h;
+    return (y);
   }
 
   /// Gets how much allowance spender have from owner
@@ -103,7 +112,7 @@ class XRC20 {
   /// _ownerAdd :  Token Owner Address.
   /// recieverAdd : Reciever Address is The address which you want to transfer to.
   /// transfer_Value the amount of tokens to be transferred
-  Future<String> transfer(String _ownerPrivateKey, _contractAddr, _ownerAdd,
+  Future<String> transfer(_ownerPrivateKey, _contractAddr, _ownerAdd,
       receiverAdd, transfer_value) async {
     final String privateKey = _ownerPrivateKey;
     final credentials = await EthPrivateKey.fromHex(privateKey);
@@ -113,13 +122,13 @@ class XRC20 {
     final tokenTransfer = contract.function('transfer');
     final EthereumAddress ownAddress = EthereumAddress.fromHex(_ownerAdd);
     final EthereumAddress receiver = EthereumAddress.fromHex(receiverAdd);
+    final BigInt parsed_value = BigInt.parse('1000000000000000000');
     final transfer = await Transaction.callContract(
       from: ownAddress,
       contract: contract,
       function: tokenTransfer,
-      parameters: [receiver, transfer_value],
+      parameters: [receiver, BigInt.from(transfer_value) * parsed_value],
     );
-
     final transferDetails = await client.sendTransaction(credentials, transfer,
         chainId: null, fetchChainIdFromNetworkId: true);
     return ('$transferDetails');
@@ -212,12 +221,14 @@ class XRC20 {
     final EthereumAddress spender = EthereumAddress.fromHex(_spenderAddr);
     final EthereumAddress receiver = EthereumAddress.fromHex(receiver_Address);
     final EthereumAddress ownAddr = EthereumAddress.fromHex(ownerAddress);
+    // final BigInt parsed__value = BigInt.parse('1000000000000000000');
+
     final nonce = await client.getTransactionCount(spender);
     final gasPrice = await client.getGasPrice();
     final transferFrom = await Transaction.callContract(
       contract: contract,
       function: tokenTransferFrom,
-      parameters: [ownAddr, receiver, transferfrom_value],
+      parameters: [ownAddr, receiver, BigInt.from(transferfrom_value)],
       from: spender,
       gasPrice: gasPrice,
       nonce: nonce,
@@ -242,11 +253,12 @@ class XRC20 {
   /// ownerAddress : Token Owner Address.
 
   Future<String> transferXDC(
-      String ownerPrivatekey, receiver_Addr, xdc_value) async {
+      String ownerPrivatekey, receiver_Addr, xdc_value, ownerAddresss) async {
     final privateKey = ownerPrivatekey;
     final credentials = await EthPrivateKey.fromHex(privateKey);
     final EthereumAddress receiver = EthereumAddress.fromHex(receiver_Addr);
-    final EthereumAddress ownerAddress = EthereumAddress.fromHex(privateKey);
+    final EthereumAddress ownerAddress = EthereumAddress.fromHex(ownerAddresss);
+
     final transferXDC = await Transaction(
       to: receiver,
       value: EtherAmount.fromUnitAndValue(EtherUnit.ether, xdc_value),
