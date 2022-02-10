@@ -5,8 +5,9 @@ import 'package:xdc3dart/xdc3dart.dart';
 final String abiFile =
     '[{"constant":true,"inputs":[{"name":"interfaceId","type":"bytes4"}],"name":"supportsInterface","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"name","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"tokenId","type":"uint256"}],"name":"getApproved","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"tokenId","type":"uint256"}],"name":"approve","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[],"name":"totalSupply","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"from","type":"address"},{"name":"to","type":"address"},{"name":"tokenId","type":"uint256"}],"name":"transferFrom","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"owner","type":"address"},{"name":"index","type":"uint256"}],"name":"tokenOfOwnerByIndex","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"from","type":"address"},{"name":"to","type":"address"},{"name":"tokenId","type":"uint256"}],"name":"safeTransferFrom","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"index","type":"uint256"}],"name":"tokenByIndex","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"tokenId","type":"uint256"}],"name":"ownerOf","outputs":[{"name":"","type":"address"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[{"name":"owner","type":"address"}],"name":"balanceOf","outputs":[{"name":"","type":"uint256"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":true,"inputs":[],"name":"symbol","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"to","type":"address"},{"name":"approved","type":"bool"}],"name":"setApprovalForAll","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":false,"inputs":[{"name":"from","type":"address"},{"name":"to","type":"address"},{"name":"tokenId","type":"uint256"},{"name":"_data","type":"bytes"}],"name":"safeTransferFrom1","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"tokenId","type":"uint256"}],"name":"tokenURI","outputs":[{"name":"","type":"string"}],"payable":false,"stateMutability":"view","type":"function"},{"constant":false,"inputs":[{"name":"_to","type":"address"},{"name":"_tokenId","type":"uint256"},{"name":"_uri","type":"string"}],"name":"mint","outputs":[],"payable":false,"stateMutability":"nonpayable","type":"function"},{"constant":true,"inputs":[{"name":"owner","type":"address"},{"name":"operator","type":"address"}],"name":"isApprovedForAll","outputs":[{"name":"","type":"bool"}],"payable":false,"stateMutability":"view","type":"function"},{"inputs":[{"name":"name","type":"string"},{"name":"symbol","type":"string"}],"payable":false,"stateMutability":"nonpayable","type":"constructor"},{"anonymous":false,"inputs":[{"indexed":true,"name":"from","type":"address"},{"indexed":true,"name":"to","type":"address"},{"indexed":true,"name":"tokenId","type":"uint256"}],"name":"Transfer","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"approved","type":"address"},{"indexed":true,"name":"tokenId","type":"uint256"}],"name":"Approval","type":"event"},{"anonymous":false,"inputs":[{"indexed":true,"name":"owner","type":"address"},{"indexed":true,"name":"operator","type":"address"},{"indexed":false,"name":"approved","type":"bool"}],"name":"ApprovalForAll","type":"event"}]';
 
+/// Class for XRC721 Methods.
 class XRC721 {
-// * Gets the Name of the specified address.
+  /// Gets the Name of the specified address.
   Future<String> name(String token_address) async {
     final EthereumAddress contractAddr = EthereumAddress.fromHex(token_address);
     final contract =
@@ -17,7 +18,7 @@ class XRC721 {
     return '$name';
   }
 
-  //  Gets the Symbol of the specified address.
+  ///  Gets the Symbol of the specified address.
   Future<String> symbol(String tokenAddress) async {
     final EthereumAddress contractAddr = EthereumAddress.fromHex(tokenAddress);
 
@@ -27,11 +28,10 @@ class XRC721 {
     final tokenSymbol = contract.function('symbol');
     final symbol = await client
         .call(contract: contract, function: tokenSymbol, params: []);
-    // print('Symbol : ${symbol} ');
     return '$symbol';
   }
 
-  // * Gets the totalSupply of the specified address.
+  /// Gets the totalSupply of the specified address.
   Future<String> totalSupply(String tokenAddr_) async {
     final EthereumAddress contractAddr = EthereumAddress.fromHex(tokenAddr_);
 
@@ -44,9 +44,9 @@ class XRC721 {
     return ('$totalSupply');
   }
 
-// * Gets the balanceOf of the specified address.
-// * contractAddr The address of the token.
-// * ownerAddress The address to query the balance of.
+  /// Gets the balanceOf of the specified address.
+  /// contractAddr The address of the token.
+  /// ownerAddress The address to query the balance of.
   Future<String> balanceOf(
       String ___contractAdd___, String ___ownerAdd___) async {
     final EthereumAddress contractAddr =
@@ -80,7 +80,7 @@ class XRC721 {
   /// A distinct Uniform Resource Identifier (URI) for a given asset.
   /// tokenAddress The address of the token.
   /// tokenId The identifier for an NFT.
-  ///  URI of a token.
+  /// URI of a token.
   Future<String> tokenURI(BigInt token_id, String tokenAddr__) async {
     final EthereumAddress contractAddr = EthereumAddress.fromHex(tokenAddr__);
 
@@ -285,11 +285,10 @@ class XRC721 {
     final transferForms = await client.sendTransaction(
         credentials, transferFrom,
         chainId: null, fetchChainIdFromNetworkId: true);
-    print('tokenAmount Tokens transfered successfully. ');
     return ('$transferForms');
   }
 
-// Transfers the ownership of an NFT from one address to another address
+  /// Transfers the ownership of an NFT from one address to another address
   /// This works identically to the other function with an extra data parameter,
   /// except this function just sets data to "".
   /// tokenAddress An address for whom to query .
@@ -315,7 +314,7 @@ class XRC721 {
     final EthereumAddress ownAddr = EthereumAddress.fromHex(ownerAddress__);
     final nonce = await client.getTransactionCount(spender);
     final gasPrice = await client.getGasPrice();
-    final transferFrom = await Transaction.callContract(
+    final safetransferFrom = await Transaction.callContract(
       contract: contract,
       function: tokenTransferFrom,
       parameters: [ownAddr, receiver, token_id_],
@@ -329,10 +328,9 @@ class XRC721 {
 
     final credentials = await EthPrivateKey.fromHex(spender_privateKey);
 
-    final transferForms = await client.sendTransaction(
-        credentials, transferFrom,
+    final safetransferForms = await client.sendTransaction(
+        credentials, safetransferFrom,
         chainId: null, fetchChainIdFromNetworkId: true);
-    print('tokenAmount Tokens transfered successfully. ');
-    return ('$transferForms');
+    return ('$safetransferForms');
   }
 }

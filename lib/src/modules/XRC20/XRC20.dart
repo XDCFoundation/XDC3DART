@@ -16,7 +16,7 @@ final client = Web3Client(rpcUrl, Client(), socketConnector: () {
   return IOWebSocketChannel.connect(wsUrl).cast<String>();
 });
 
-/// Class for XRC20 Method.
+/// Class for XRC20 Methods.
 class XRC20 {
   /// Gets the Name of the specified address.
   Future<String> name(String contractAdd) async {
@@ -78,11 +78,9 @@ class XRC20 {
         contract: contract, function: tokenBalanceOf, params: [ownerAddress]);
     final response = balanceOf[0].toString();
     final res = BigInt.parse(response);
-    print(res);
     final x = pow(10, 18);
     final u = x.toString();
     final BigInt h = BigInt.parse(u);
-    print(x);
     final y = res ~/ h;
     return (y);
   }
@@ -246,7 +244,6 @@ class XRC20 {
     final transferForms = await client.sendTransaction(
         credentials, transferFrom,
         chainId: null, fetchChainIdFromNetworkId: true);
-    print('tokenAmount Tokens transfered successfully. ');
     return ('$transferForms');
   }
 
@@ -271,7 +268,6 @@ class XRC20 {
     final transferedXDC = await client.sendTransaction(credentials, transferXDC,
         chainId: null, fetchChainIdFromNetworkId: true);
 
-    print('tokenAmount Tokens transfered successfully. ');
     return ('$transferedXDC');
   }
 

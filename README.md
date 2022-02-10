@@ -56,15 +56,14 @@ Create an instance of XDC3DART. This will provide you access to a set of functio
   name() → string Returns the name of the token.
   
 ```
- Future<String> name(String contractAdd) async {
-    final EthereumAddress contractAddr = EthereumAddress.fromHex(contractAdd);
-    final contract =
-        DeployedContract(ContractAbi.fromJson(abiFile, 'XRC20'), contractAddr);
-    final tokenName = contract.function('name');
-    final name =
-        await client.call(contract: contract, function: tokenName, params: []);
-    return '$name';
-  }
+ void main() async {
+  var obj = new XRC20();
+  print('--- Name Method ---');
+  print("Enter Token address : ");
+  String contractAdd = (stdin.readLineSync()!);
+  var getName = await obj.name(contractAdd);
+  print('tokenName : $getName\n');
+}
   ```
 
 This example returns name of the specified address.
@@ -72,17 +71,16 @@ This example returns name of the specified address.
 ## Example for XRC721
  name() → string Returns the name of the token.
  ```
-Future<String> name(token_address) async {
-    final EthereumAddress contractAddr = EthereumAddress.fromHex(token_address);
-    final contract =
-        DeployedContract(ContractAbi.fromJson(abiFile, 'XRC721'), contractAddr);
-    final tokenName = contract.function('name');
-    final name =
-        await client.call(contract: contract, function: tokenName, params: []);
-    return '$name';
-  }
+void main() async {
+  var obj = new XRC721();
+  print('--- Name Method ---');
+  print("Enter Token address : ");
+  String name_ = (stdin.readLineSync()!);
+  var getName = await obj.name(name_);
+  print('tokenName : $getName\n');
+}
  ```
- 
+ For other methods, you can take reference from the test folder. 
    
 
 ## Author
