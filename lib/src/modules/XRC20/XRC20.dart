@@ -90,7 +90,8 @@ class XRC20 {
   /// contractAddr_ : The address of the token.
   /// spenderAdd_ : The address of the Spender's address.
   /// An String representing the Allowance .
-  Future<String> allowance(String ownerAdd_, contractAdd_, spenderAdd_) async {
+  Future<String> allowance(
+      String ownerAdd_, String contractAdd_, String spenderAdd_) async {
     final EthereumAddress ownAddress = EthereumAddress.fromHex(ownerAdd_);
     final EthereumAddress contractAddr = EthereumAddress.fromHex(contractAdd_);
     final contract = DeployedContract(
@@ -110,8 +111,8 @@ class XRC20 {
   /// _ownerAdd :  Token Owner Address.
   /// recieverAdd : Reciever Address is The address which you want to transfer to.
   /// transfer_Value the amount of tokens to be transferred
-  Future<String> transfer(_ownerPrivateKey, _contractAddr, _ownerAdd,
-      receiverAdd, transfer_value) async {
+  Future<String> transfer(String _ownerPrivateKey, String _contractAddr,
+      String _ownerAdd, receiverAdd, transfer_value) async {
     final String privateKey = _ownerPrivateKey;
     final credentials = await EthPrivateKey.fromHex(privateKey);
     final EthereumAddress contractAddr = EthereumAddress.fromHex(_contractAddr);
@@ -137,8 +138,8 @@ class XRC20 {
   /// contractAdd : Token Address.
   /// spenderadd :  The address which will spend the funds.
   /// approve_value : The amount of tokens to be spent.
-  Future<String> approve(
-      String owner_PrivateKey, contractadd, spenderadd, approve_value) async {
+  Future<String> approve(String owner_PrivateKey, String contractadd,
+      String spenderadd, approve_value) async {
     final String privateKey = owner_PrivateKey;
     final credentials = await EthPrivateKey.fromHex(privateKey);
 
@@ -164,8 +165,8 @@ class XRC20 {
   ///  spender_add : The address which will spend the funds.
   ///  value : The amount of tokens to increase the allowance by.
 
-  Future<String> increaseAllowance(
-      String ownerPrivateKey, contract_Add, spender_Add, value) async {
+  Future<String> increaseAllowance(String ownerPrivateKey, String contract_Add,
+      String spender_Add, value) async {
     final String privateKey = ownerPrivateKey;
     final credentials = await EthPrivateKey.fromHex(privateKey);
     final ownAddress = await credentials.extractAddress();
@@ -205,11 +206,11 @@ class XRC20 {
 
   Future<String> transferFrom(
       String contractAddres_,
-      _spenderAddr,
-      receiver_Address,
+      String _spenderAddr,
+      String receiver_Address,
       transferfrom_value,
-      SpenderPrivatekey,
-      ownerAddress) async {
+      String SpenderPrivatekey,
+      String ownerAddress) async {
     final EthereumAddress contractAddr =
         EthereumAddress.fromHex(contractAddres_);
 
@@ -253,8 +254,8 @@ class XRC20 {
   /// xdc_value :  the amount of tokens to be transferred
   /// ownerAddress : Token Owner Address.
 
-  Future<String> transferXDC(
-      String ownerPrivatekey, receiver_Addr, xdc_value, ownerAddresss) async {
+  Future<String> transferXDC(String ownerPrivatekey, String receiver_Addr,
+      xdc_value, String ownerAddresss) async {
     final privateKey = ownerPrivatekey;
     final credentials = await EthPrivateKey.fromHex(privateKey);
     final EthereumAddress receiver = EthereumAddress.fromHex(receiver_Addr);
@@ -279,8 +280,8 @@ class XRC20 {
   /// value : The amount of tokens to increase the allowance by.
   /// ownAddress : Owner Address
 
-  Future<String> decreaseAllowance(
-      ownerPrivateKey, contract_Add, spender_Add, value_) async {
+  Future<String> decreaseAllowance(String ownerPrivateKey, String contract_Add,
+      String spender_Add, value_) async {
     final String privateKey = ownerPrivateKey;
     final credentials = await EthPrivateKey.fromHex(privateKey);
     final ownAddress = await credentials.extractAddress();
