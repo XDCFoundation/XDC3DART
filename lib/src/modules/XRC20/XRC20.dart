@@ -221,14 +221,18 @@ class XRC20 {
     final EthereumAddress spender = EthereumAddress.fromHex(_spenderAddr);
     final EthereumAddress receiver = EthereumAddress.fromHex(receiver_Address);
     final EthereumAddress ownAddr = EthereumAddress.fromHex(ownerAddress);
-    // final BigInt parsed__value = BigInt.parse('1000000000000000000');
+    final BigInt parsed__value = BigInt.parse('1000000000000000000');
 
     final nonce = await client.getTransactionCount(spender);
     final gasPrice = await client.getGasPrice();
     final transferFrom = await Transaction.callContract(
       contract: contract,
       function: tokenTransferFrom,
-      parameters: [ownAddr, receiver, BigInt.from(transferfrom_value)],
+      parameters: [
+        ownAddr,
+        receiver,
+        BigInt.from(transferfrom_value) * parsed__value
+      ],
       from: spender,
       gasPrice: gasPrice,
       nonce: nonce,
