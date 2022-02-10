@@ -8,7 +8,7 @@ XDC3DART is available through [pub.dev](https://pub.dev). To install
 it, simply add the following command to your project:
 
 ```
-dart pub add XDC3DART
+dart pub add xdc3dart
 ```
 
 then import modules per required 
