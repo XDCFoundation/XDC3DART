@@ -1,6 +1,6 @@
 name: xdc3dart
-description: XDC DART SDK with support for XRC20.
-version: 1.0.2
+description: XDC3DART SDK with support for smart contracts, XRC20 & XRC721.
+version: 1.0.3
 homepage: https://github.com/XDCFoundation/XDC3DART
 
 environment:
